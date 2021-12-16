@@ -73,3 +73,7 @@ TODO: I'll upload the script that's also able to read timestamped dumps once I'l
 [frames-vehicle.md](frames-vehicle.md) are vehicle bus only (common are excluded)
 
 [frames-body.md](frames-body.md) are body bus only (common are excluded)
+
+## Other resources
+https://github.com/majbthrd/MazdaCANbus/blob/master/skyactiv.kcd
+https://www.mazda3revolution.com/threads/canbus-messages.225538/

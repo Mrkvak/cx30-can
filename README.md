@@ -72,7 +72,7 @@ TODO: I'll upload the script that's also able to read timestamped dumps once I'l
 ### Checksumming and sequence numbers
 Some frames have an additional layer of integrity protection - sequence numbers and checksums... For example ID `0x440`. Here's a couple of messages:
 
-` 
+```
  60 00 00 00 40 AD 88 21
  60 00 00 00 40 AD 89 22
  60 00 00 00 40 AD 8A 23
@@ -89,16 +89,24 @@ Some frames have an additional layer of integrity protection - sequence numbers 
  60 00 00 00 40 AD 85 1E
  60 00 00 00 40 AD 86 1F
  60 00 00 00 40 AD 87 20
- 60 00 00 00 40 AD 88 21`
+ 60 00 00 00 40 AD 88 21
+ ```
 ...
-` 
+```
  68 02 00 00 40 AA 42 E2
  68 02 00 00 40 A9 83 22
  68 01 00 00 40 A9 84 22
-`
+```
 First nibble of 7th byte is clearly a counter, that increments and wraps around. 8th byte is some kind of checksum. The only way to determine how the checksum is computed is by (somehow educated) guesswork. In this case, it seems that for all the dataframes: `(B1 + B2 + B3 + B4 + B5 + B6 + B7 - B8) % 256 = 0xb4`, therefore we can compute B8 by: `B1 + B2 + B3 + B4 + B5 + B6 + B7) % 256 - 0xB4`.
 
 0x09d ID uses 0x5B instead of 0xB4.
+
+## Locating sources
+Let's start by pullsing some fuses and what effect it will have on transmitted frames.
+
+Pulling F19 (power steering) fuse stops transmitting `086`, `088`, `240`, `52C` on can0 (vehicle/powertrain CAN) and `086` and `240`on can1 (body CAN).
+
+Pulling fuses F35 and F23 (ABS) stops transmitting of the  `078`, `079`, `203`, `211`, `215`, `217`, `219`, `223`, `415`, `596` IDs on vehicle CAN, and `078`, `079`, `203`, `217`, `415` IDs on body CAN.
 
 
 [frames-common.md](frames-common.md) is a list of frame IDs that are common on both body and vehicle bus.
